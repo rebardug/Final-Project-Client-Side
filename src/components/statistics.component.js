@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import UserService from "../services/user.service";
 
-import CanvasJSReact from './canvasjs.react';
-var CanvasJS = CanvasJSReact.CanvasJS;
-var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+
 export default class Statistics extends Component {
     render() {
         function toogleDataSeries(e) {
@@ -78,10 +76,7 @@ export default class Statistics extends Component {
         }
         return (
             <div>
-                <CanvasJSChart options={options}
-                /* onRef={ref => this.chart = ref} */
-                />
-                {/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
+                
             </div>
         );
     }

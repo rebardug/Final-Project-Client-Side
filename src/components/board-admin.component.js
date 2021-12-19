@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import UserService from "../services/user.service";
 import EventBus from "../common/EventBus";
-
+import AuthService from "../services/auth.service";
 export default class BoardAdmin extends Component {
   constructor(props) {
     super(props);
@@ -13,7 +13,9 @@ export default class BoardAdmin extends Component {
   }
 
   componentDidMount() {
-    UserService.getAdminBoard().then(
+    const currentUser = AuthService.getCurrentUser();
+    console.log(currentUser);
+    UserService.getAdminBoard(currentUser).then(
       response => {
         this.setState({
           content: response.data

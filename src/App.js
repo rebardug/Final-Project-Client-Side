@@ -12,8 +12,6 @@ import Profile from "./components/profile.component";
 import BoardUser from "./components/board-user.component";
 import BoardModerator from "./components/board-moderator.component";
 import BoardAdmin from "./components/board-admin.component";
-import Chat from "./components/chat.component";
-import Maps from "./components/maps.component";
 import Tasks from "./components/tasks.component";
 import Statistics from "./components/statistics.component";
 
@@ -99,11 +97,6 @@ class App extends Component {
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link to={"/maps"} className="nav-link">
-                      maps
-                    </Link>
-                  </li>
-                  <li className="nav-item">
                     <Link to={"/statistics"} className="nav-link">
                       statistics
                     </Link>
@@ -126,11 +119,6 @@ class App extends Component {
                   <Link to={"/profile"} className="nav-link">
                     {currentUser.name}
                   </Link>
-                </li>
-                <li className="nav-item">
-                  <a href="/chat" className="nav-link">
-                    Chat
-                  </a>
                 </li>
                 <li className="nav-item">
                   <a href="/tasks" className="nav-link">
@@ -166,8 +154,6 @@ class App extends Component {
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/profile" component={Profile} />
-            <Route exact path="/chat" component={Chat} />
-            <Route exact path="/maps" component={Maps} />
             <Route exact path="/tasks" component={Tasks} />
             <Route exact path="/statistics" component={Statistics} />
             <Route path="/user" component={BoardUser} />
