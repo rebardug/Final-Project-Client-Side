@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import ReactDOM from 'react-dom'
 import './tasks.css';
+import AuthService from "../services/auth.service";
+import EventBus from "../common/EventBus";
+
+
 
 var todoItems = [];
 //todoItems.push({index: 1, value: "learn react", done: false});
@@ -120,142 +124,76 @@ class TodoApp extends React.Component {
     );
   }
 }
-
-//ReactDOM.render(<TodoApp initItems={todoItems}/>, document.getElementById('app'));
-
-export default function tasks() {
-  return(
-    <TodoApp initItems={todoItems}/>
-  )
+export default class tasks extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      content: ""
+    };
+  }
+  onSubmit(event) {
+    event.preventDefault();
+    var newItemValue = this.refs.itemName.value;
+    
+    if(newItemValue) {
+      this.props.addItem({newItemValue});
+      this.form.reset();
+    }
+  }
+  addItem(todoItem) {
+    AuthService.setTask(
+      todoItem
+    ).then(
+      response => {
+        this.comp();
+      },
+      error => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+      }
+    );
+  }
+  comp() {
+    const currentUser = AuthService.getCurrentUser();
+    AuthService.getTasks(currentUser).then(
+      response => {
+        const temp= JSON.stringify(response);
+        this.setState({
+        content: temp.split("")
+        });
+      },
+      error => {
+        this.setState({
+          content:
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString()
+        });
+        if (error.response && error.response.status === 401) {
+          EventBus.dispatch("logout");
+        }
+      }
+    );
+  }
+  componentDidMount() {
+    this.comp();
+  }
+  render(){
+    return (
+      <div id="main">
+        <h3>{this.state.content}</h3>
+        <form ref="form" onSubmit={this.onSubmit} className="form-inline">
+        <input type="text" ref="itemName" className="form-control" placeholder="add a new task"/>
+        <button type="submit" className="btn btn-primary">Add</button> 
+      </form>
+      </div>
+    // <TodoApp initItems={this.state.content}/>
+    )
+  }
 }
-
-
-
-
-
-
-
-// export default function tasks() {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//  // return (
-// //     <div className="todoapp stack-large">
-// //       <h1>TodoMatic</h1>
-// //       <form>
-// //         <h2 className="label-wrapper">
-// //           <label htmlFor="new-todo-input" className="label__lg">
-// //             What needs to be done?
-// //           </label>
-// //         </h2>
-// //         <input
-// //           type="text"
-// //           id="new-todo-input"
-// //           className="input input__lg"
-// //           name="text"
-// //           autoComplete="off"
-// //         />
-// //         <button type="submit" className="btn btn__primary btn__lg">
-// //           Add
-// //         </button>
-// //       </form>
-// //       <div className="filters btn-group stack-exception">
-// //         <button type="button" className="btn toggle-btn" aria-pressed="true">
-// //           <span className="visually-hidden">Show </span>
-// //           <span>all</span>
-// //           <span className="visually-hidden"> tasks</span>
-// //         </button>
-// //         <button type="button" className="btn toggle-btn" aria-pressed="false">
-// //           <span className="visually-hidden">Show </span>
-// //           <span>Active</span>
-// //           <span className="visually-hidden"> tasks</span>
-// //         </button>
-// //         <button type="button" className="btn toggle-btn" aria-pressed="false">
-// //           <span className="visually-hidden">Show </span>
-// //           <span>Completed</span>
-// //           <span className="visually-hidden"> tasks</span>
-// //         </button>
-// //       </div>
-// //       <h2 id="list-heading">
-// //         3 tasks remaining
-// //       </h2>
-// //       <ul
-// //         role="list"
-// //         className="todo-list stack-large stack-exception"
-// //         aria-labelledby="list-heading"
-// //       >
-// //         <li className="todo stack-small">
-// //           <div className="c-cb">
-// //             <input id="todo-0" type="checkbox" defaultChecked={true} />
-// //             <label className="todo-label" htmlFor="todo-0">
-// //               Eat
-// //             </label>
-// //           </div>
-// //           <div className="btn-group">
-// //             <button type="button" className="btn">
-// //               Edit <span className="visually-hidden">Eat</span>
-// //             </button>
-// //             <button type="button" className="btn btn__danger">
-// //               Delete <span className="visually-hidden">Eat</span>
-// //             </button>
-// //           </div>
-// //         </li>
-// //         <li className="todo stack-small">
-// //           <div className="c-cb">
-// //             <input id="todo-1" type="checkbox" />
-// //             <label className="todo-label" htmlFor="todo-1">
-// //               Sleep
-// //             </label>
-// //           </div>
-// //           <div className="btn-group">
-// //             <button type="button" className="btn">
-// //               Edit <span className="visually-hidden">Sleep</span>
-// //             </button>
-// //             <button type="button" className="btn btn__danger">
-// //               Delete <span className="visually-hidden">Sleep</span>
-// //             </button>
-// //           </div>
-// //         </li>
-// //         <li className="todo stack-small">
-// //           <div className="c-cb">
-// //             <input id="todo-2" type="checkbox" />
-// //             <label className="todo-label" htmlFor="todo-2">
-// //               Repeat
-// //             </label>
-// //           </div>
-// //           <div className="btn-group">
-// //             <button type="button" className="btn">
-// //               Edit <span className="visually-hidden">Repeat</span>
-// //             </button>
-// //             <button type="button" className="btn btn__danger">
-// //               Delete <span className="visually-hidden">Repeat</span>
-// //             </button>
-// //           </div>
-// //         </li>
-// //       </ul>
-// //     </div>
-// //   );
-// }

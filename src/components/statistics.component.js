@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import UserService from "../services/user.service";
 import EventBus from "../common/EventBus";
+import AuthService from "../services/auth.service";
 
 
 export default class Statistics extends Component {
@@ -13,7 +14,8 @@ export default class Statistics extends Component {
     }
 
     componentDidMount() {
-        UserService.getStatisticsBoard().then(
+        const currentUser = AuthService.getCurrentUser();
+        UserService.getStatisticsBoard(currentUser).then(
             response => {
                 const temp= JSON.stringify(response);
                 this.setState({

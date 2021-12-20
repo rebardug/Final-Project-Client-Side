@@ -31,8 +31,24 @@ class AuthService {
   }
 
   getCurrentUser() {
-    return JSON.parse(localStorage.getItem('user'));;
+    return JSON.parse(localStorage.getItem('user'));
+  }
+
+  getTasks(currentUser) {
+    return axios.post(API_URL + 'tasks',{currentUser})
+    .then(response => {
+      if (response.data.accessToken) {
+      }
+
+      return response.data;
+    });
+  }
+  setTask(description,CurrentUser) {
+    return axios.post(API_URL + "setTask", {
+      description,
+      CurrentUser
+    });
   }
 }
-
+//getTasks
 export default new AuthService();

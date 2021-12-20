@@ -7,8 +7,10 @@ class UserService {
   getPublicContent() {
     return axios.get(API_URL + 'all');
   }
-  getStatisticsBoard() {
-    return axios.get(API_URL + 'stats')
+  getStatisticsBoard(CurrentUser) {
+    return axios.post(API_URL + 'stats', {
+      CurrentUser
+    })
     .then(response => {
       if (response.data.accessToken) {
       }
@@ -16,8 +18,10 @@ class UserService {
     });
   }
 
-  getUserBoard() {
-    return axios.get(API_URL + 'user')
+  getUserBoard(CurrentUser) {
+    return axios.post(API_URL + 'user', {
+      CurrentUser
+    })
     .then(response => {
       if (response.data.accessToken) {
       }
