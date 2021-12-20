@@ -15,8 +15,9 @@ export default class BoardUser extends Component {
   componentDidMount() {
     UserService.getUserBoard().then(
       response => {
+        const temp= JSON.stringify(response);
         this.setState({
-          content: response.data
+        content: temp.split(",")
         });
       },
       error => {
@@ -41,7 +42,6 @@ export default class BoardUser extends Component {
       <div className="container">
         <header className="jumbotron">
         <h3>{this.state.content}</h3>
-        {/* <h3>uyuyt</h3> */}
         </header>
       </div>
     );

@@ -14,11 +14,11 @@ export default class BoardAdmin extends Component {
 
   componentDidMount() {
     const currentUser = AuthService.getCurrentUser();
-    console.log(currentUser);
     UserService.getAdminBoard(currentUser).then(
       response => {
+        const temp= JSON.stringify(response);
         this.setState({
-          content: response.data
+          content: temp.split(",")
         });
       },
       error => {
@@ -36,13 +36,14 @@ export default class BoardAdmin extends Component {
         }
       }
     );
+
+
   }  
   render() {
     return (
       <div className="container">
         <header className="jumbotron">
           <h3>{this.state.content}</h3>
-          {/* <h1>Admin Board</h1> */}
         </header>
       </div>
     );

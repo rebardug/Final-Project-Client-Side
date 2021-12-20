@@ -7,9 +7,23 @@ class UserService {
   getPublicContent() {
     return axios.get(API_URL + 'all');
   }
+  getStatisticsBoard() {
+    return axios.get(API_URL + 'stats')
+    .then(response => {
+      if (response.data.accessToken) {
+      }
+      return response.data;
+    });
+  }
 
   getUserBoard() {
-    return axios.get(API_URL + 'user', { headers: authHeader() });
+    return axios.get(API_URL + 'user')
+    .then(response => {
+      if (response.data.accessToken) {
+      }
+
+      return response.data;
+    });
   }
 
   getModeratorBoard() {

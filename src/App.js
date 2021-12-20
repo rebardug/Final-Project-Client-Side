@@ -81,11 +81,11 @@ class App extends Component {
                   Home
                 </Link>
               </li>
-              {showModeratorBoard && (
+              {currentUser && (
                 <li className="nav-item">
-                  <Link to={"/mod"} className="nav-link">
-                    Moderator Board
-                  </Link>
+                  <a href="/tasks" className="nav-link">
+                    Tasks
+                  </a>
                 </li>
 
               )}
@@ -101,30 +101,23 @@ class App extends Component {
                       statistics
                     </Link>
                   </li>
-                </div>
-              )}
-
-              {currentUser && (
-                <li className="nav-item">
+                  <li className="nav-item">
                   <Link to={"/user"} className="nav-link">
-                    User
+                    Users
                   </Link>
                 </li>
+                </div>
               )}
             </ul>
 
             {currentUser ? (
               <div className="navbar-nav ml-auto">
                 <li className="nav-item">
-                  <Link to={"/profile"} className="nav-link">
-                    {currentUser.name}
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <a href="/tasks" className="nav-link">
-                    Tasks
+                  <a href="/profile" className="nav-link">
+                  {currentUser.name}
                   </a>
                 </li>
+                
                 <li className="nav-item">
                   <a href="/login" className="nav-link" onClick={this.logOut}>
                     LogOut
