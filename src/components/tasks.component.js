@@ -158,8 +158,8 @@ export default class tasks extends Component {
     );
   }
   comp() {
-    const currentUser = AuthService.getCurrentUser();
-    AuthService.getTasks(currentUser).then(
+    const CurrentUser = AuthService.getCurrentUser();
+    AuthService.getTasks(CurrentUser).then(
       response => {
         const temp= JSON.stringify(response);
         this.setState({
