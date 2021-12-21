@@ -8,26 +8,26 @@ export default class BoardModerator extends Component {
     super(props);
 
     this.state = {
-      content: ""
+      content: "",
     };
   }
 
   componentDidMount() {
     UserService.getModeratorBoard().then(
-      response => {
-        response.map(user =>{
+      (response) => {
+        response.map((user) => {
           console.log(user);
-          this.setState({content: [ ...this.state.content, {user}]});
-        })
+          this.setState({ content: [...this.state.content, { user }] });
+        });
       },
-      error => {
+      (error) => {
         this.setState({
           content:
             (error.response &&
               error.response.data &&
               error.response.data.message) ||
             error.message ||
-            error.toString()
+            error.toString(),
         });
 
         if (error.response && error.response.status === 401) {
@@ -41,7 +41,11 @@ export default class BoardModerator extends Component {
     return (
       <div className="container">
         <header className="jumbotron">
-        {this.state.content.map(user=><div>{user.user.name} : {user.user.email}</div>)}
+          {this.state.content.map((user) => (
+            <div>
+              {user.user.name} : {user.user.email}
+            </div>
+          ))}
         </header>
       </div>
     );
