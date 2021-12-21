@@ -34,19 +34,20 @@ class AuthService {
     return JSON.parse(localStorage.getItem('user'));
   }
 
-  getTasks(currentUser) {
-    return axios.post(API_URL + 'tasks',{currentUser})
+  getTasks(CurrentUser) {
+    return axios.post(API_URL + 'tasks', {
+      CurrentUser
+    })
     .then(response => {
       if (response.data.accessToken) {
       }
-
       return response.data;
     });
   }
-  setTask(description,CurrentUser) {
+  setTask(CurrentUser, description) {
     return axios.post(API_URL + "setTask", {
-      description,
-      CurrentUser
+      CurrentUser,
+      description
     });
   }
 }

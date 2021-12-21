@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import AuthService from "../services/auth.service";
 import UserService from "../services/user.service";
 import EventBus from "../common/EventBus";
@@ -8,18 +8,25 @@ export default class BoardUser extends Component {
     super(props);
 
     this.state = {
-      content: ""
+      content: []
     };
+    
   }
-
+  
   componentDidMount() {
     const currentUser = AuthService.getCurrentUser();
     UserService.getUserBoard(currentUser).then(
       response => {
-        const temp= JSON.stringify(response);
-        this.setState({
-        content: temp.split(",")
-        });
+        response.map(user =>{
+          console.log(user);
+          this.setState({content: [ ...this.state.content, {user}]});
+        })
+        //this.setState({content: response.data});
+        //this.setState({content: response[0].name});
+        // const temp= JSON.stringify(response);
+        // this.setState({
+        // content: temp.split(",")
+        // });
       },
       error => {
         this.setState({
@@ -42,7 +49,7 @@ export default class BoardUser extends Component {
     return (
       <div className="container">
         <header className="jumbotron">
-        <h3>{this.state.content}</h3>
+        {this.state.content.map(user=><div>{user.user.name} : {user.user.email}</div>)}
         </header>
       </div>
     );

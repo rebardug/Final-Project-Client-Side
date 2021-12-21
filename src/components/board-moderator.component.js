@@ -15,9 +15,10 @@ export default class BoardModerator extends Component {
   componentDidMount() {
     UserService.getModeratorBoard().then(
       response => {
-        this.setState({
-          content: response.data
-        });
+        response.map(user =>{
+          console.log(user);
+          this.setState({content: [ ...this.state.content, {user}]});
+        })
       },
       error => {
         this.setState({
@@ -40,7 +41,7 @@ export default class BoardModerator extends Component {
     return (
       <div className="container">
         <header className="jumbotron">
-          <h3>{this.state.content}</h3>
+        {this.state.content.map(user=><div>{user.user.name} : {user.user.email}</div>)}
         </header>
       </div>
     );

@@ -8,18 +8,16 @@ export default class BoardAdmin extends Component {
     super(props);
 
     this.state = {
-      content: ""
+      content: []
     };
   }
 
   componentDidMount() {
     const currentUser = AuthService.getCurrentUser();
     UserService.getAdminBoard(currentUser).then(
-      response => {
-        const temp= JSON.stringify(response);
-        this.setState({
-          content: temp.split(",")
-        });
+      response => {response.map(user =>{
+        this.setState({content: [ ...this.state.content, {user}]});
+      })
       },
       error => {
         this.setState({
@@ -43,7 +41,7 @@ export default class BoardAdmin extends Component {
     return (
       <div className="container">
         <header className="jumbotron">
-          <h3>{this.state.content}</h3>
+        {this.state.content.map(user=><div>{user.user.name} : {user.user.email}</div>)}
         </header>
       </div>
     );

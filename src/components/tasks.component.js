@@ -1,16 +1,10 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import ReactDOM from 'react-dom'
 import './tasks.css';
 import AuthService from "../services/auth.service";
 import EventBus from "../common/EventBus";
-
-
-
+/*
 var todoItems = [];
-//todoItems.push({index: 1, value: "learn react", done: false});
-//todoItems.push({index: 2, value: "Go shopping", done: true});
-//todoItems.push({index: 3, value: "buy flowers", done: true});
-
 class TodoList extends React.Component {
   render () {
     var items = this.props.items.map((item, index) => {
@@ -123,29 +117,43 @@ class TodoApp extends React.Component {
       </div>
     );
   }
-}
+}*/
+
 export default class tasks extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      content: ""
+      content: [],
+      value: ""
     };
+    this.onSubmit= this.onSubmit.bind(this);
+    this.handleChange= this.handleChange.bind(this);
+
+    //this.state = {value: 'xzczx'};
+  }
+  handleChange(event) {
+    this.setState({value: event.target.value});
   }
   onSubmit(event) {
     event.preventDefault();
-    var newItemValue = this.refs.itemName.value;
-    
-    if(newItemValue) {
-      this.props.addItem({newItemValue});
-      this.form.reset();
+    var refael = this.state.value;
+    console.log(refael);
+
+    if(refael) {
+      this.addItem(refael);
+      //this.form.reset();
     }
   }
   addItem(todoItem) {
+    console.log(todoItem)
+    const currentUser = AuthService.getCurrentUser();
     AuthService.setTask(
+      currentUser,
       todoItem
     ).then(
       response => {
-        this.comp();
+        // console.log("yes");
+        // this.comp();
       },
       error => {
         const resMessage =
@@ -156,15 +164,22 @@ export default class tasks extends Component {
           error.toString();
       }
     );
+    console.log("yes");
+    //    this.comp();
   }
   comp() {
-    const currentUser = AuthService.getCurrentUser();
-    AuthService.getTasks(currentUser).then(
+    const CurrentUser = AuthService.getCurrentUser();
+    AuthService.getTasks(CurrentUser).then(
       response => {
-        const temp= JSON.stringify(response);
-        this.setState({
-        content: temp.split("")
-        });
+        
+        response.map(Task =>{
+          this.setState({content: [ ...this.state.content, {Task}]});
+        })
+        console.log(this.state.content);
+        // const temp= JSON.stringify(response);
+        // this.setState({
+        // content: temp.split("")
+        // });
       },
       error => {
         this.setState({
@@ -187,13 +202,12 @@ export default class tasks extends Component {
   render(){
     return (
       <div id="main">
-        <h3>{this.state.content}</h3>
+        {this.state.content.map(Task=><div>{Task.Task.Description}</div>)}
         <form ref="form" onSubmit={this.onSubmit} className="form-inline">
-        <input type="text" ref="itemName" className="form-control" placeholder="add a new task"/>
+        <input type="text" onChange={this.handleChange} name="input" className="form-control" placeholder="add a new task"/>
         <button type="submit" className="btn btn-primary">Add</button> 
       </form>
       </div>
-    // <TodoApp initItems={this.state.content}/>
     )
-  }
+  }//onClick={this.comp()}
 }
