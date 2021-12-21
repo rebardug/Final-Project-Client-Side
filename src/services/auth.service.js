@@ -50,6 +50,18 @@ class AuthService {
       description
     });
   }
+  deleteTask(CurrentUser, description) {
+    return axios.post(API_URL + "deleteTask", {
+      CurrentUser,
+      description
+    });
+  }
+  deleteUser(CurrentUser, deleteUser) {
+    return axios.post(API_URL + "deleteUser", {
+      CurrentUser,
+      deleteUser
+    });
+  }
 }
 //getTasks
 export default new AuthService();
