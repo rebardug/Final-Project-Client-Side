@@ -137,7 +137,7 @@ export default class tasks extends Component {
   onSubmit(event) {
     event.preventDefault();
     var refael = this.state.value;
-    console.log(refael);
+    //console.log(refael);
 
     if(refael) {
       this.addItem(refael);
@@ -145,7 +145,7 @@ export default class tasks extends Component {
     }
   }
   addItem(todoItem) {
-    console.log(todoItem)
+    //console.log(todoItem)
     const currentUser = AuthService.getCurrentUser();
     AuthService.setTask(
       currentUser,
@@ -175,7 +175,7 @@ export default class tasks extends Component {
         response.map(Task =>{
           this.setState({content: [ ...this.state.content, {Task}]});
         })
-        console.log(this.state.content);
+        //console.log(this.state.content);
         // const temp= JSON.stringify(response);
         // this.setState({
         // content: temp.split("")
@@ -200,13 +200,23 @@ export default class tasks extends Component {
     this.comp();
   }
   render(){
+    const CurrentUser = AuthService.getCurrentUser();
+    console.log(CurrentUser.userType);
+    let form;
+    if (CurrentUser.userType==="admin"){
+      form=<form  ref="form" onSubmit={this.onSubmit} className="form-inline">
+      <input type="text" onChange={this.handleChange} name="input" className="form-control" placeholder="add a new task"/>
+      <button type="submit" className="btn btn-primary">Add</button> 
+      </form>
+    } 
     return (
       <div id="main">
         {this.state.content.map(Task=><div>{Task.Task.Description}</div>)}
-        <form ref="form" onSubmit={this.onSubmit} className="form-inline">
-        <input type="text" onChange={this.handleChange} name="input" className="form-control" placeholder="add a new task"/>
-        <button type="submit" className="btn btn-primary">Add</button> 
-      </form>
+        {form}
+          {/* <form  ref="form" onSubmit={this.onSubmit} className="form-inline">
+          <input type="text" onChange={this.handleChange} name="input" className="form-control" placeholder="add a new task"/>
+          <button type="submit" className="btn btn-primary">Add</button> 
+        </form> */}
       </div>
     )
   }//onClick={this.comp()}

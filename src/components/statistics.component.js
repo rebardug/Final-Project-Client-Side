@@ -9,7 +9,7 @@ export default class Statistics extends Component {
         super(props);
     
         this.state = {
-            content: ""
+            content: []
         };
     }
 
@@ -17,10 +17,14 @@ export default class Statistics extends Component {
         const currentUser = AuthService.getCurrentUser();
         UserService.getStatisticsBoard(currentUser).then(
             response => {
-                const temp= JSON.stringify(response);
-                this.setState({
-                content: temp.split(",")
-                });
+                response.map(user =>{
+                    console.log(user);
+                    this.setState({content: [ ...this.state.content, {user}]});
+                })
+                // const temp= JSON.stringify(response);
+                // this.setState({
+                // content: temp.split(",")
+                // });
             },
         error => {
             this.setState({
@@ -43,7 +47,7 @@ export default class Statistics extends Component {
         return (
             <div className="container">
                 <header className="jumbotron">
-                    <h3>{this.state.content}</h3>
+                {this.state.content.map(user=><div>{user.user.name} : {user.user.points}</div>)}
                 </header>
             </div>
         );
