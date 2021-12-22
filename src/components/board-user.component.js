@@ -41,6 +41,11 @@ export default class BoardUser extends Component {
       content: [],
     };
   }
+  changePermission(email) {
+    console.log("dfsdfsdf")// print without me clicking on it
+    const currentUser = AuthService.getCurrentUser();
+     // UserService.changeUser(currentUser, email)// do not delete
+  }
   deleteUser(email){
     const currentUser = AuthService.getCurrentUser();
     AuthService.deleteTask(currentUser, email)// do not delete
@@ -79,28 +84,36 @@ export default class BoardUser extends Component {
   render() {
     return (
       <TableContainer component={Paper}>
-        <Table aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>name</StyledTableCell>
-              <StyledTableCell align="center">email</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {this.state.content.map((user) => (
-              <StyledTableRow
-                key={user.name}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <StyledTableCell>{user.user.name}</StyledTableCell>
-                <StyledTableCell align="center">
-                  {user.user.email}
+          <Table aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>name</StyledTableCell>
+                <StyledTableCell align="center">email</StyledTableCell>
+                <StyledTableCell align="right">
+                  change permissions
                 </StyledTableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {this.state.content.map((user) => (
+                <StyledTableRow
+                  key={user.name}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <StyledTableCell>{user.user.name}</StyledTableCell>
+                  <StyledTableCell align="center">
+                    {user.user.email}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    <Button variant="contained" onClick={this.changePermission(user.user.email)}>
+                      change to user
+                    </Button>
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
     );
   }
 }
