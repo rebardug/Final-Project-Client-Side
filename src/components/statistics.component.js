@@ -49,7 +49,7 @@ export default class BoardUser extends Component {
         response.map((user) => {
           this.setState({ content: [...this.state.content, { user }] });
         });
-        console.log(this.state.content)
+        console.log(this.state.content);
       },
       (error) => {
         this.setState({
@@ -67,6 +67,9 @@ export default class BoardUser extends Component {
       }
     );
   }
+  editPoints() {
+    console.log("aaa");
+  }
 
   render() {
     return (
@@ -78,6 +81,7 @@ export default class BoardUser extends Component {
                 <StyledTableCell>name</StyledTableCell>
                 <StyledTableCell align="center">email</StyledTableCell>
                 <StyledTableCell align="right">points</StyledTableCell>
+                <StyledTableCell align="center"></StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -92,6 +96,14 @@ export default class BoardUser extends Component {
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     {user.user.points}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    <Button
+                      variant="contained"
+                      onClick={this.editPoints.bind()}
+                    >
+                      edit points
+                    </Button>
                   </StyledTableCell>
                 </StyledTableRow>
               ))}
@@ -111,7 +123,7 @@ export default class BoardUser extends Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {this.state.content.slice(0,3).map((user) => (
+              {this.state.content.slice(0, 3).map((user) => (
                 <StyledTableRow
                   key={user.name}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

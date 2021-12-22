@@ -33,8 +33,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
- 
-
 export default class BoardUser extends Component {
   constructor(props) {
     super(props);
@@ -44,9 +42,9 @@ export default class BoardUser extends Component {
     };
   }
   changePermission(email) {
-    console.log("dfsdfsdf")// print without me clicking on it
+    console.log("dfsdfsdf"); // print without me clicking on it
     const currentUser = AuthService.getCurrentUser();
-     // UserService.changeAdmin(currentUser, email)// do not delete
+    // UserService.changeAdmin(currentUser, email)// do not delete
   }
   componentDidMount() {
     const currentUser = AuthService.getCurrentUser();
@@ -100,7 +98,10 @@ export default class BoardUser extends Component {
                     {user.user.email}
                   </StyledTableCell>
                   <StyledTableCell align="right">
-                    <Button variant="contained" onClick={this.changePermission(user.user.email)}>
+                    <Button
+                      variant="contained"
+                      onClick={this.changePermission.bind(user.user.email)}
+                    >
                       change to user
                     </Button>
                   </StyledTableCell>
