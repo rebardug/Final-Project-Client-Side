@@ -41,6 +41,15 @@ export default class BoardUser extends Component {
       content: [],
     };
   }
+  deleteUser(email){
+    const currentUser = AuthService.getCurrentUser();
+    AuthService.deleteTask(currentUser, email)// do not delete
+  }
+  changePoints(num, email) {
+    console.log("dfsdfsdf")// print without me clicking on it
+    const currentUser = AuthService.getCurrentUser();
+    UserService.changePoints(currentUser, num, email)// do not delete
+  }
 
   componentDidMount() {
     const currentUser = AuthService.getCurrentUser();

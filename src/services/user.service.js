@@ -45,6 +45,18 @@ class UserService {
       return response.data;
     });
   }
+
+  changeAdmin(CurrentUser, email) {
+    return axios.post(API_URL + "changePermission", {
+      CurrentUser,
+      email
+    });
+  }
+  changePoints(currentUser, num, email) {
+    return axios.post(API_URL + "changePermission", {
+      currentUser, num, email
+    });
+  }
 }
 
 export default new UserService();

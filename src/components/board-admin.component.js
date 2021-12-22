@@ -33,7 +33,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function changePermission() {}
+ 
 
 export default class BoardUser extends Component {
   constructor(props) {
@@ -43,10 +43,14 @@ export default class BoardUser extends Component {
       content: [],
     };
   }
-
+  changePermission(email) {
+    console.log("dfsdfsdf")// print without me clicking on it
+    const currentUser = AuthService.getCurrentUser();
+     // UserService.changeAdmin(currentUser, email)// do not delete
+  }
   componentDidMount() {
     const currentUser = AuthService.getCurrentUser();
-    UserService.getUserBoard(currentUser).then(
+    UserService.getAdminBoard(currentUser).then(
       (response) => {
         response.map((user) => {
           this.setState({ content: [...this.state.content, { user }] });
@@ -96,8 +100,8 @@ export default class BoardUser extends Component {
                     {user.user.email}
                   </StyledTableCell>
                   <StyledTableCell align="right">
-                    <Button variant="contained" onClick={changePermission()}>
-                      change to admin
+                    <Button variant="contained" onClick={this.changePermission(user.user.email)}>
+                      change to user
                     </Button>
                   </StyledTableCell>
                 </StyledTableRow>

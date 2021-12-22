@@ -167,6 +167,10 @@ export default class tasks extends Component {
     console.log("yes");
     //    this.comp();
   }
+  deleteTask(Description){
+    const currentUser = AuthService.getCurrentUser();
+    AuthService.deleteTask(currentUser, Description)// do not delete
+  }
   comp() {
     const CurrentUser = AuthService.getCurrentUser();
     AuthService.getTasks(CurrentUser).then(

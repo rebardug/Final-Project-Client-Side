@@ -44,11 +44,12 @@ export default class BoardUser extends Component {
 
   componentDidMount() {
     const currentUser = AuthService.getCurrentUser();
-    UserService.getUserBoard(currentUser).then(
+    UserService.getStatisticsBoard(currentUser).then(
       (response) => {
         response.map((user) => {
           this.setState({ content: [...this.state.content, { user }] });
         });
+        console.log(this.state.content)
       },
       (error) => {
         this.setState({
@@ -110,7 +111,7 @@ export default class BoardUser extends Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {this.state.content.map((user) => (
+              {this.state.content.slice(0,3).map((user) => (
                 <StyledTableRow
                   key={user.name}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

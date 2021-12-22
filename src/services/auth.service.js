@@ -56,10 +56,10 @@ class AuthService {
       description
     });
   }
-  deleteUser(CurrentUser, deleteUser) {
+  deleteUser(CurrentUser, email) {
     return axios.post(API_URL + "deleteUser", {
       CurrentUser,
-      deleteUser
+      email
     });
   }
 }
